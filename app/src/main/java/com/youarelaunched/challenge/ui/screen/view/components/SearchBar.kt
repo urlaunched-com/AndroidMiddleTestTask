@@ -41,7 +41,7 @@ fun SearchBar(searchQuery: String, onValueChange: (String) -> Unit, modifier: Mo
                     Box(modifier = Modifier.weight(1f)) {
                         if (searchQuery.isEmpty()) {
                             Text(
-                                text = stringResource(id = R.string.search_empty),
+                                text = stringResource(id = R.string.search_hint),
                                 style = MaterialTheme.typography.subtitle2.copy(color = VendorAppTheme.colors.text)
                             )
                         }

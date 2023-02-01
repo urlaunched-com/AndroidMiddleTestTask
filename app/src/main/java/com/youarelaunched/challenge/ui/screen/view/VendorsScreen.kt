@@ -9,8 +9,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.youarelaunched.challenge.ui.screen.state.VendorsScreenUiState
 import com.youarelaunched.challenge.ui.screen.view.components.ChatsumerSnackbar
+import com.youarelaunched.challenge.ui.screen.view.components.NoResult
 import com.youarelaunched.challenge.ui.screen.view.components.SearchBar
 import com.youarelaunched.challenge.ui.screen.view.components.VendorItem
 import com.youarelaunched.challenge.ui.theme.VendorAppTheme
@@ -39,6 +41,14 @@ fun VendorsScreen(
                 .padding(paddings)
                 .fillMaxSize()
         ) {
+            SearchBar(
+                searchQuery = uiState.searchQuery,
+                onValueChange = { viewModel.onSearchQueryChange(it) },
+                modifier = Modifier.zIndex(1f)
+                .padding(start = 16.dp, end = 16.dp, top = 24.dp)
+                .fillMaxWidth()
+            )
+
             if (!uiState.vendors.isNullOrEmpty()) {
                 LazyColumn(
                     modifier = Modifier
@@ -59,15 +69,11 @@ fun VendorsScreen(
                     }
 
                 }
+            } else {
+                NoResult()
             }
 
-            SearchBar(
-                searchQuery = uiState.searchQuery,
-                onValueChange = { viewModel.onSearchQueryChange(it) },
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, top = 24.dp)
-                    .fillMaxWidth()
-            )
+
         }
     }
 }
