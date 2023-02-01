@@ -37,4 +37,8 @@ class VendorsVM @Inject constructor(
         }
     }
 
+    fun onSearchQueryChange(newSearchQuery: String) {
+        _uiState.update { it.copy(searchQuery = newSearchQuery) }
+    }
+
 }
