@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.youarelaunched.challenge.ui.screen.state.VendorsScreenUiState
 import com.youarelaunched.challenge.ui.screen.view.components.ChatsumerSnackbar
 import com.youarelaunched.challenge.ui.screen.view.components.NoResult
@@ -43,10 +44,12 @@ fun VendorsScreen(
         ) {
             SearchBar(
                 searchQuery = uiState.searchQuery,
+                onSearchClick = { viewModel.onSearchClick() },
                 onValueChange = { viewModel.onSearchQueryChange(it) },
-                modifier = Modifier.zIndex(1f)
-                .padding(start = 16.dp, end = 16.dp, top = 24.dp)
-                .fillMaxWidth()
+                modifier = Modifier
+                    .zIndex(1f)
+                    .padding(start = 16.dp, end = 16.dp, top = 24.dp)
+                    .fillMaxWidth()
             )
 
             if (!uiState.vendors.isNullOrEmpty()) {

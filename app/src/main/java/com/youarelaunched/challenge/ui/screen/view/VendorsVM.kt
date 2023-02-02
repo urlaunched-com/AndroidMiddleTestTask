@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.youarelaunched.challenge.data.repository.VendorsRepository
 import com.youarelaunched.challenge.ui.screen.state.VendorsScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,20 +16,31 @@ class VendorsVM @Inject constructor(
 
     private val _uiState = MutableStateFlow(
         VendorsScreenUiState(
-            vendors = null
+            vendors = null,
+            searchQuery = ""
         )
     )
     val uiState = _uiState.asStateFlow()
 
     init {
         getVendors()
+        viewModelScope.launch {
+            uiState
+                .map { it.searchQuery }
+                .filter { it.length > 2 }
+                .debounce(500)
+                .collect {
+                    onSearchClick()
+                }
+        }
+
     }
 
-    fun getVendors() {
+    private fun getVendors(searchQuery: String = "") {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(
-                    vendors = repository.getVendors()
+                    vendors = repository.getVendors(searchQuery)
                 )
             }
         }
@@ -39,6 +48,10 @@ class VendorsVM @Inject constructor(
 
     fun onSearchQueryChange(newSearchQuery: String) {
         _uiState.update { it.copy(searchQuery = newSearchQuery) }
+    }
+
+    fun onSearchClick() {
+        getVendors(uiState.value.searchQuery)
     }
 
 }
