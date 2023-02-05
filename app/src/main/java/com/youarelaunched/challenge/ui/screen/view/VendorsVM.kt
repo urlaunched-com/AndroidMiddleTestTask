@@ -36,7 +36,7 @@ class VendorsVM @Inject constructor(
 
     }
 
-    private fun getVendors(searchQuery: String = "") {
+    fun getVendors(searchQuery: String = "") {
         viewModelScope.launch {
             _uiState.update {
                 it.copy(

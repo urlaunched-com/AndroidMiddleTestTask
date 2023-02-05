@@ -24,13 +24,18 @@ fun VendorsRoute(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    VendorsScreen(uiState = uiState, viewModel = viewModel)
+    VendorsScreen(
+        uiState = uiState,
+        onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
+        onSearchClick = { viewModel.onSearchClick() }
+    )
 }
 
 @Composable
 fun VendorsScreen(
     uiState: VendorsScreenUiState,
-    viewModel: VendorsVM
+    onSearchQueryChange: (String) -> Unit,
+    onSearchClick: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -44,8 +49,8 @@ fun VendorsScreen(
         ) {
             SearchBar(
                 searchQuery = uiState.searchQuery,
-                onSearchClick = { viewModel.onSearchClick() },
-                onValueChange = { viewModel.onSearchQueryChange(it) },
+                onSearchClick = onSearchClick,
+                onValueChange = onSearchQueryChange,
                 modifier = Modifier
                     .zIndex(1f)
                     .padding(start = 16.dp, end = 16.dp, top = 24.dp)
