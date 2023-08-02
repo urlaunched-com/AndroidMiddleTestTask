@@ -2,4 +2,8 @@
     <string name="app_name">JuniorSolution</string>
     <string name="msg_error_no_internet">No Internet connection. Connect to the Internet and try again.</string>
     <string name="msg_unknown_error">Error: %s </string>
+    <string name="msg_search_field_hint">Search…</string>
+    <string name="msg_no_result_search">Sorry! No results found…</string>
+    <string name="msg_no_result_search_hint_to_fix">Please try a different search request or browse businesses from the list</string>
+
 </resources>

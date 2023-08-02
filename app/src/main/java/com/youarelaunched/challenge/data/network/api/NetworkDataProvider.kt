@@ -14,6 +14,23 @@ class NetworkDataProvider @Inject constructor(
     @DispatcherIo private val workDispatcher: CoroutineDispatcher,
     @ApplicationContext private val appContext: Context
 ) : ApiVendors {
+    override suspend fun getVendorsByCompanyName(companyName: String): List<NetworkVendor> =
+        withContext(workDispatcher) {
+            val json = appContext.assets
+                .open("vendors.json")
+                .bufferedReader()
+                .use {
+                    it.readText()
+                }
+
+            Gson()
+                .fromJson(json, NetworkVendorsData::class.java)
+                .vendors
+                .filter { vendor ->
+                    vendor.companyName.lowercase()
+                        .contains(companyName.lowercase(), ignoreCase = true)
+                }
+        }
 
     override suspend fun getVendors(): List<NetworkVendor> = withContext(workDispatcher) {
         val json = appContext.assets
