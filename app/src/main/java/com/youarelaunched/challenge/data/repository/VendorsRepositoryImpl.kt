@@ -14,6 +14,12 @@ class VendorsRepositoryImpl @Inject constructor(
     @DispatcherIo private val workDispatcher: CoroutineDispatcher,
     private val api: ApiVendors
 ) : VendorsRepository {
+    override suspend fun getVendorsByCompanyName(companyName: String): List<Vendor> =
+        withContext(workDispatcher) {
+            api.getVendorsByCompanyName(companyName).map {
+                it.toVendor()
+            }
+        }
 
     override suspend fun getVendors(): List<Vendor> = withContext(workDispatcher) {
         api.getVendors().map {

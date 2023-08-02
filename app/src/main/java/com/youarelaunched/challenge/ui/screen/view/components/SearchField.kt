@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigationDefaults.Elevation
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,7 +23,11 @@ import com.youarelaunched.challenge.middle.R
 import com.youarelaunched.challenge.ui.theme.VendorAppTheme
 
 @Composable
-fun SearchField() {
+fun SearchField(
+    searchText: String,
+    onTextChange: (String) -> Unit,
+    performSearch: () -> Unit,
+) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -32,20 +37,21 @@ fun SearchField() {
         shape = RoundedCornerShape(size = 16.dp),
     ) {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = searchText,
+            onValueChange = onTextChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(height = 52.dp),
-            textStyle = MaterialTheme.typography.h2,
+            textStyle = MaterialTheme.typography.subtitle1,
             trailingIcon = {
-                Icon(
-                    contentDescription = "Search Icon",
-                    painter = painterResource(id = R.drawable.ic_search),
-                    modifier = Modifier.size(24.dp),
-                    tint = VendorAppTheme.colors.text
-
-                )
+                IconButton(onClick = performSearch) {
+                    Icon(
+                        contentDescription = "Search Icon",
+                        painter = painterResource(id = R.drawable.ic_search),
+                        modifier = Modifier.size(24.dp),
+                        tint = VendorAppTheme.colors.text
+                    )
+                }
             },
             placeholder = {
                 Text(

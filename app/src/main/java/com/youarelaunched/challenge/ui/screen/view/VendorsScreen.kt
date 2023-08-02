@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.youarelaunched.challenge.ui.screen.state.VendorsScreenUiState
 import com.youarelaunched.challenge.ui.screen.view.components.ChatsumerSnackbar
+import com.youarelaunched.challenge.ui.screen.view.components.EmptySearchResult
 import com.youarelaunched.challenge.ui.screen.view.components.SearchField
 import com.youarelaunched.challenge.ui.screen.view.components.VendorItem
 import com.youarelaunched.challenge.ui.theme.VendorAppTheme
@@ -25,13 +26,22 @@ fun VendorsRoute(
     viewModel: VendorsVM
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val searchText by viewModel.searchText.collectAsState()
 
-    VendorsScreen(uiState = uiState)
+    VendorsScreen(
+        uiState = uiState,
+        searchText = searchText,
+        onTextChange = viewModel::onTextChange,
+        performSearch = viewModel::getVendors
+    )
 }
 
 @Composable
 fun VendorsScreen(
-    uiState: VendorsScreenUiState
+    uiState: VendorsScreenUiState,
+    searchText: String,
+    onTextChange: (String) -> Unit,
+    performSearch: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -41,7 +51,11 @@ fun VendorsScreen(
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            SearchField()
+            SearchField(
+                searchText = searchText,
+                onTextChange = onTextChange,
+                performSearch = performSearch
+            )
             if (!uiState.vendors.isNullOrEmpty()) {
                 LazyColumn(
                     modifier = Modifier
@@ -58,8 +72,9 @@ fun VendorsScreen(
                             vendor = vendor
                         )
                     }
-
                 }
+            } else if (uiState.vendors != null && uiState.vendors.isEmpty()) {
+                EmptySearchResult()
             }
         }
     }
