@@ -19,6 +19,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -80,4 +82,10 @@ dependencies {
     kapt hiltDependencies.kapt
 
     implementation retrofit.jsonConverter
+
+    testImplementation test.junit
+    testImplementation test.coroutines
+    androidTestImplementation test.androidxJunit
+    androidTestImplementation test.composeJunit4
+    debugImplementation test.composeManifest
 }

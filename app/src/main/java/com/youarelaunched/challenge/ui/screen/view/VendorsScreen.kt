@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.youarelaunched.challenge.ui.screen.state.VendorsScreenUiState
 import com.youarelaunched.challenge.ui.screen.view.components.ChatsumerSnackbar
@@ -43,8 +44,12 @@ fun VendorsScreen(
     onTextChange: (String) -> Unit,
     performSearch: () -> Unit
 ) {
+//    val lazyListState = rememberLazyListState()
+//    lazyListState.firstVisibleItemIndex>0|| lazyListState.firstVisibleItemScrollOffset>0
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("VENDORS_LIST_TEST_TAG"),
         backgroundColor = VendorAppTheme.colors.background,
         snackbarHost = { ChatsumerSnackbar(it) }
     ) { paddings ->

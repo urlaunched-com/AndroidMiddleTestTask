@@ -16,6 +16,7 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,8 @@ fun SearchField(
             onValueChange = onTextChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(height = 52.dp),
+                .height(height = 52.dp)
+                .testTag("VENDORS_SEARCH_FIELD_TEST_TAG"),
             textStyle = MaterialTheme.typography.subtitle1,
             trailingIcon = {
                 IconButton(onClick = performSearch) {
